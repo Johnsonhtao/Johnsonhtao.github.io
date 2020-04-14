@@ -169,59 +169,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>[TOC]</p>
-<h2 id="maven-的作用"><a href="#maven-的作用" class="headerlink" title="maven 的作用"></a>maven 的作用</h2><p>管理 java 的开发时依赖的jar包，通过maven 的依赖管理，能够让 开发者摆对对jar包的导入管理，编译，打包的管理。在项目中也规范了文件夹，资源的存放目录。</p>
-<p>maven 的 常用命令</p>
-<p>mav clean , 在执行前 必须清楚 原来生成的target目录</p>
-<p>mav compile  编译</p>
-<p>mav test   测试，执行单元测试类</p>
-<p>mav package  打包命令，将 java 工程打成 jar 包，将 web 工程打成 war 包。</p>
-<p>mav install   执行 install 将 maven 打成 jar 包或 war 包发布到本地仓库，相当于发布</p>
-<h2 id="maven的原理"><a href="#maven的原理" class="headerlink" title="maven的原理"></a>maven的原理</h2><p>有了maven 之后，jar包不存放在 项目目录中，那存放在哪里、</p>
-<p>maven 有3个jar包的仓库：本地仓库（电脑本地），远程仓库（公司的私服），中央仓库（maven 团队管理）</p>
-<p>在项目中，如果需要jar包时：</p>
-<ol>
-<li>先去 本地仓库 查找</li>
-<li>若没有再从 远程 和 中央 上获取，需要网络</li>
-</ol>
-<h2 id="maven-的模型概念"><a href="#maven-的模型概念" class="headerlink" title="maven 的模型概念"></a>maven 的模型概念</h2><p>这里说的模型就是指 </p>
-<ol>
-<li>模型（Project Object Model）：</li>
-</ol>
-<p>​    通过 pom.xml文件对 项目依赖的jar包，插件目标 进行定位坐标（存放位置）</p>
-<ol start="2">
-<li>依赖管理系统（Dependency ManageMent System）</li>
-</ol>
-<p>​    对项目所依赖的jar包进行统一的管理</p>
-<ol start="3">
-<li>项目生命周期（Project lifecycle）</li>
-</ol>
-<p>​    完成对项目的构建，包括清理、编译、测试、报告，打包，部署，共5个过程</p>
-<ol start="4">
-<li><p>文件夹标准 </p>
-<p>统一规范 maven构建项目的目录结构。</p>
-</li>
-<li><p>插件目标（plugin goal）</p>
-<p>插件管理 项目生命周期过程中依赖的包，比如tomcat 包，在项目中编译没有，可通过plugin标签进行限定其生命</p>
-</li>
-</ol>
-<h2 id="jar包的坐标"><a href="#jar包的坐标" class="headerlink" title="jar包的坐标"></a>jar包的坐标</h2><h3 id="坐标设定"><a href="#坐标设定" class="headerlink" title="坐标设定"></a>坐标设定</h3><p>在 pom.xml  文件添加坐标</p>
-<img src="https://cdn.jsdelivr.net/gh/Johnsonhtao/imageBedht/img/image-20200403174655817.png" alt="image-20200403174655817" style="zoom:80%;" />
-
-<h3 id="坐标来源方式："><a href="#坐标来源方式：" class="headerlink" title="坐标来源方式："></a>坐标来源方式：</h3><p>查找 maven 官网 示例</p>
-<h3 id="依赖范围"><a href="#依赖范围" class="headerlink" title="依赖范围"></a>依赖范围</h3><p>依赖范围由强到弱的顺序是：compile&gt;provided&gt;runtime&gt;test</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Johnsonhtao/imageBedht/img/image-20200403170545133.png" alt="image-20200403170545133"></p>
-<h3 id="测试总结："><a href="#测试总结：" class="headerlink" title="测试总结："></a>测试总结：</h3><ol>
-<li>默认引入 的 jar 包 ——- compile 【默认范围 可以不写】（编译、测试、运行 都有效 ）</li>
-<li>servlet-api 、jsp-api ——- provided （编译、测试 有效， 运行时无效 防止和 tomcat 下 jar 冲突）</li>
-<li>jdbc 驱动 jar 包 —- runtime （测试、运行 有效 ）</li>
-<li>junit —– test （测试有效）</li>
-</ol>
-<p>如何添加坐标 ，示例上述第2点</p>
-<p><img src="https://raw.githubusercontent.com/Johnsonhtao/imageBedht/master/img/20200403175955.png" alt="image-20200403175108520"></p>
-<h2 id="pom-基本配置"><a href="#pom-基本配置" class="headerlink" title="pom  基本配置"></a>pom  基本配置</h2><p>pom.xml 是 Maven 项目的核心配置文件，位于每个工程的根目录，基本配置如下：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">project</span> &gt;</span> ：文件的根节点 .</span><br><span class="line"><span class="tag">&lt;<span class="name">modelversion</span> &gt;</span> ： pom.xml 使用的对象模型版本</span><br><span class="line"><span class="tag">&lt;<span class="name">groupId</span> &gt;</span> ：项目名称，一般写项目的域名</span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span> &gt;</span> ：模块名称，子项目名或模块名称</span><br><span class="line"><span class="tag">&lt;<span class="name">version</span> &gt;</span> ：产品的版本号 .</span><br><span class="line"><span class="tag">&lt;<span class="name">packaging</span> &gt;</span> ：打包类型，一般有 jar、war、pom 等</span><br><span class="line"><span class="tag">&lt;<span class="name">name</span> &gt;</span> ：项目的显示名，常用于 Maven 生成的文档。</span><br><span class="line"><span class="tag">&lt;<span class="name">description</span> &gt;</span> ：项目描述，常用于 Maven 生成的文档</span><br><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span> ：项目依赖构件配置，配置项目依赖构件的坐标</span><br><span class="line"><span class="tag">&lt;<span class="name">build</span>&gt;</span> ：项目构建配置，配置编译、运行插件等</span><br></pre></td></tr></table></figure>
-
-
+        
       
 
       
